@@ -59,17 +59,20 @@ for name in selected:
     acc = accuracy_score(y_test, y_pred)
     pre = precision_score(y_test, y_pred, average="weighted", zero_division=0)
     rec = recall_score(y_test, y_pred, average="weighted", zero_division=0)
+    tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
+    spec = tn / (tn + fp)
     f1 = f1_score(y_test, y_pred, average="weighted", zero_division=0)
     results.append([name, acc, pre, rec, f1])
     print("\n", name)
     print("Accuracy:", round(acc, 3))
     print("Precision:", round(pre, 3))
     print("Recall:", round(rec, 3))
+    print("Specificity:", round(spec, 3))
     print("F1-score:", round(f1, 3))
 
 results_df = pd.DataFrame(
     results,
-    columns=["Model", "Accuracy", "Precision", "Recall", "F1-score"]
+    columns=["Model", "Accuracy", "Precision", "Recall", "F1-score" , "spec"]
 )
 
 print("\nMODEL COMPARISON")
